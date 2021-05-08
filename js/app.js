@@ -1,58 +1,116 @@
 const container = document.querySelector(".container");
-const coffees = [
+const games = [
   {
-    name: "Perspiciatis",
-    image: "images/coffee1.jpg"
+    date: "Wednesday September 1st 2021",
+    time: "8PM",
+    rink: 4,
+    team: "Away",
+    gameNumber: 11
   },
   {
-    name: "Voluptatem",
-    image: "images/coffee2.jpg"
+    date: "Friday September 17th 2021",
+    time: "8PM",
+    rink: 4,
+    team: "Away",
+    gameNumber: 12
   },
   {
-    name: "Explicabo",
-    image: "images/coffee3.jpg"
+    date: "Saturday October 2nd 2021",
+    time: "8PM",
+    rink: 4,
+    team: "Away",
+    gameNumber: 13
   },
   {
-    name: "Rchitecto",
-    image: "images/coffee4.jpg"
+    date: "Tuesday October 11th 2021",
+    time: "8PM",
+    rink: 4,
+    team: "Away",
+    gameNumber: 14
   },
   {
-    name: " Beatae",
-    image: "images/coffee5.jpg"
+    date: "Sunday October 31st 2021",
+    time: "8PM",
+    rink: 4,
+    team: "Away",
+    gameNumber: 15
   },
   {
-    name: " Vitae",
-    image: "images/coffee6.jpg"
+    date: "Monday November 8th 2021",
+    time: "8PM",
+    rink: 4,
+    team: "Away",
+    gameNumber: 16
   },
   {
-    name: "Inventore",
-    image: "images/coffee7.jpg"
+    date: "Thursday November 25th 2021",
+    time: "8PM",
+    rink: 4,
+    team: "Away",
+    gameNumber: 17
   },
   {
-    name: "Veritatis",
-    image: "images/coffee8.jpg"
+    date: "Wednesday December 15th 2021",
+    time: "8PM",
+    rink: 4,
+    team: "Away",
+    gameNumber: 18
   },
   {
-    name: "Accusantium",
-    image: "images/coffee9.jpg"
-  }
+    date: "Saturday December 25th 2021",
+    time: "8PM",
+    rink: 4,
+    team: "Away",
+    gameNumber: 19
+  },
 ];
-const showCoffees = () => {
+const showGames = () => {
   let output = "";
-  coffees.forEach(
-    ({ name, image }) =>
+  games.forEach(
+    ({ date, time, rink, team, gameNumber }) =>
       (output += `
-              <div class="card">
-                <img class="card--avatar" src=${image} />
-                <h1 class="card--title">${name}</h1>
-                <a class="card--link" href="#">Taste</a>
+              <div class="card" data-game=${gameNumber}>
+                <div class="card--game-info">
+                  <h4 class="game-number">${gameNumber}</h4>
+                  <h2>Date: ${date}</h2>
+                  <h2>Time: ${time}</h2>
+                  <h2>Rink: ${rink}</h2>
+                  <h2>${team} Team</h2>
+                </div>
+                <div class="button-container" >
+                  <button data-game=${gameNumber} class="neutral button button--accept">In!</button>
+                  <button data-game=${gameNumber} class="neutral button button--decline">Out</button>
+                </div>
               </div>
               `)
   );
   container.innerHTML = output;
 };
 
-document.addEventListener("DOMContentLoaded", showCoffees);
+const attachButtonHandlers = () => {
+  console.log("Attaching button handlers");
+  $(".button").on("click", (e) => {
+    console.log("Click");
+    console.log($(e.currentTarget).attr('data-game'));
+
+    const $this = $(e.currentTarget);
+
+    if ($this.hasClass("active")) {
+      $this.removeClass("active");
+      $this.siblings('button').removeClass("inactive");
+    } else {
+      $this.addClass("active").removeClass("inactive");
+      $this.siblings('button').addClass("inactive").removeClass("active");
+    }
+  });
+};
+
+const init  = () => {
+  showGames();
+  attachButtonHandlers();
+};
+
+document.addEventListener("DOMContentLoaded", init);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function() {
