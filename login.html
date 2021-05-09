@@ -1,0 +1,78 @@
+<!DOCTYPE html>  
+ <html lang="en">  
+  <head>  
+   <title>EasyAuth</title>  
+   <meta charset="UTF-8">  
+  
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-analytics.js"></script>
+
+
+    <!-- The code below initializes the sign-in widget from FirebaseUI web. -->  
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+  <script>
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    var firebaseConfig = {
+      apiKey: "AIzaSyBwZFfnjPGhhM-Lpf6lAbAw4Gpz3JLHRqU",
+      authDomain: "vhockey-scheduler.firebaseapp.com",
+      projectId: "vhockey-scheduler",
+      storageBucket: "vhockey-scheduler.appspot.com",
+      messagingSenderId: "339539967555",
+      appId: "1:339539967555:web:2e64abeca03c6220211ef6",
+      measurementId: "G-WQ08SFEWSX"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script> 
+
+  <script type="text/javascript">  
+  var uiConfig = {
+    callbacks: {
+      signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+        // User successfully signed in.
+        // Return type determines whether we continue the redirect automatically
+        // or whether we leave that to developer to handle.
+        return true;
+      },
+      uiShown: function() {
+        // The widget is rendered.
+        // Hide the loader.
+        document.getElementById('loader').style.display = 'none';
+      }
+    },
+    // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+    signInFlow: 'popup',
+    signInSuccessUrl: '<url-to-redirect-to-on-success>',
+    signInOptions: [
+      // Leave the lines as is for the providers you want to offer your users.
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      firebase.auth.GithubAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.PhoneAuthProvider.PROVIDER_ID
+    ],
+    // Terms of service url.
+    tosUrl: '<your-tos-url>',
+    // Privacy policy url.
+    privacyPolicyUrl: '<your-privacy-policy-url>'
+  };
+  // Initialize the FirebaseUI Widget using Firebase.  
+  var ui = new firebaseui.auth.AuthUI(firebase.auth());  
+  // The start method will wait until the DOM is loaded.  
+  ui.start('#firebaseui-auth-container', uiConfig);  
+  </script>  
+  </head> 
+  <body>  
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader">Loading...</div> 
+  </body>  
+ </html>
