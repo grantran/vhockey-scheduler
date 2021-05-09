@@ -105,9 +105,20 @@ const attachButtonHandlers = () => {
   });
 };
 
+const attachLogoutHandler = () => {
+  $('#logout-link').on("click", () => {
+    firebase.auth().signOut().then(function() {
+      console.log("Logging out");
+    }.catch((error) => {
+      console.log("logout error", error);
+    }));
+  });
+};
+
 const init  = () => {
   showGames();
   attachButtonHandlers();
+  attachLogoutHandler();
 };
 
 document.addEventListener("DOMContentLoaded", init);
