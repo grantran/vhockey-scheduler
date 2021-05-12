@@ -1,90 +1,30 @@
-const container = document.querySelector(".container");
-const games = [
-  {
-    date: "Wednesday September 1st 2021",
-    time: "8PM",
-    rink: 4,
-    team: "Away",
-    gameNumber: 11
-  },
-  {
-    date: "Friday September 17th 2021",
-    time: "8PM",
-    rink: 4,
-    team: "Away",
-    gameNumber: 12
-  },
-  {
-    date: "Saturday October 2nd 2021",
-    time: "8PM",
-    rink: 4,
-    team: "Away",
-    gameNumber: 13
-  },
-  {
-    date: "Tuesday October 11th 2021",
-    time: "8PM",
-    rink: 4,
-    team: "Away",
-    gameNumber: 14
-  },
-  {
-    date: "Sunday October 31st 2021",
-    time: "8PM",
-    rink: 4,
-    team: "Away",
-    gameNumber: 15
-  },
-  {
-    date: "Monday November 8th 2021",
-    time: "8PM",
-    rink: 4,
-    team: "Away",
-    gameNumber: 16
-  },
-  {
-    date: "Thursday November 25th 2021",
-    time: "8PM",
-    rink: 4,
-    team: "Away",
-    gameNumber: 17
-  },
-  {
-    date: "Wednesday December 15th 2021",
-    time: "8PM",
-    rink: 4,
-    team: "Away",
-    gameNumber: 18
-  },
-  {
-    date: "Saturday December 25th 2021",
-    time: "8PM",
-    rink: 4,
-    team: "Away",
-    gameNumber: 19
-  },
-];
 const showGames = () => {
   let output = "";
-  games.forEach(
-    ({ date, time, rink, team, gameNumber }) =>
-      (output += `
-              <div class="card" data-game=${gameNumber}>
-                <div class="card--game-info">
-                  <h4 class="game-number">${gameNumber}</h4>
-                  <h2>Date: ${date}</h2>
-                  <h2>Time: ${time}</h2>
-                  <h2>Rink: ${rink}</h2>
-                  <h2>${team} Team</h2>
-                </div>
-                <div class="button-container" >
-                  <button data-game=${gameNumber} class="neutral button button--accept">In!</button>
-                  <button data-game=${gameNumber} class="neutral button button--decline">Out</button>
-                </div>
-              </div>
-              `)
-  );
-  container.innerHTML = output;
+  db.ref("games/").on("value", (snapshot) => {
+    const games = snapshot.val();
+
+    games.forEach(
+      ({ date, time, rink, team, gameNumber }) => {
+        output += `
+          <div class="card" data-game=${gameNumber}>
+            <div class="card--game-info">
+              <h4 class="game-number">${gameNumber}</h4>
+              <h2>Date: ${date}</h2>
+              <h2>Time: ${time}</h2>
+              <h2>Rink: ${rink}</h2>
+              <h2>${team} Team</h2>
+            </div>
+            <div class="button-container" >
+              <button data-game=${gameNumber} class="neutral button button--accept">In!</button>
+              <button data-game=${gameNumber} class="neutral button button--decline">Out</button>
+            </div>
+          </div>`;
+
+        const container = document.querySelector(".container");
+        container.innerHTML = output;
+      }
+    );
+  });
 };
 
 const attachButtonHandlers = () => {

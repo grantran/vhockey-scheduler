@@ -12,6 +12,7 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
         https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-database.js"></script>
 
 
     <!-- The code below initializes the sign-in widget from FirebaseUI web. -->  
@@ -26,14 +27,19 @@
         storageBucket: "vhockey-scheduler.appspot.com",
         messagingSenderId: "339539967555",
         appId: "1:339539967555:web:2e64abeca03c6220211ef6",
-        measurementId: "G-WQ08SFEWSX"
+        measurementId: "G-WQ08SFEWSX",
+
+        databaseUrl: "https://vhockey-scheduler-default-rtdb.firebaseio.com"
       };
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
       firebase.analytics();
+
+      const auth = firebase.auth();
+      const db = firebase.database();
     </script> 
     <script>
-      firebase.auth().onAuthStateChanged(function(user) {
+      auth.onAuthStateChanged(function(user) {
         if (user) {
           console.log("user is signed in");
           console.log(user);

@@ -1,0 +1,40 @@
+{
+  "game_1": {
+    "date": "Wednesday September 1st 2021",
+    "time": "8PM",
+    "rink": 4,
+    "team": "Away",
+    "gameNumber": 1,
+    "players_attending": {
+      "gtran": true
+    }
+  },
+  "game_2": {
+    "date": "Wednesday September 1st 2021",
+    "time": "8PM",
+    "rink": 4,
+    "team": "Away",
+    "gameNumber": 1,
+    "players_attending": {
+      "gtran": true
+    }
+  },
+  "game_3": {
+    "date": "Wednesday September 1st 2021",
+    "time": "8PM",
+    "rink": 4,
+    "team": "Away",
+    "gameNumber": 1,
+    "players_attending": {
+      "gtran": true
+    }
+  },
+  "game_4": {
+    "date": "Wednesday September 1st 2021",
+    "time": "8PM",
+    "rink": 4,
+    "team": "Away",
+    "gameNumber": 1,
+    "players_attending": {}
+  }
+}
