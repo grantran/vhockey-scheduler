@@ -2,10 +2,17 @@ const showGames = () => {
   let output = "";
   db.ref("games/").on("value", (snapshot) => {
     const games = snapshot.val();
+    console.log(games);
 
-    games.forEach(
-      ({ date, time, rink, team, gameNumber }) => {
-        output += `
+    for (const key in games) {
+      const game = games[key];
+      const date = game.date;
+      const time = game.time;
+      const rink = game.rink;
+      const team = game.team;
+      const gameNumber = game.gameNumber;
+
+      output += `
           <div class="card" data-game=${gameNumber}>
             <div class="card--game-info">
               <h4 class="game-number">${gameNumber}</h4>
@@ -19,20 +26,18 @@ const showGames = () => {
               <button data-game=${gameNumber} class="neutral button button--decline">Out</button>
             </div>
           </div>`;
+    }
 
-        const container = document.querySelector(".container");
-        container.innerHTML = output;
-      }
-    );
+    const container = document.querySelector(".container");
+    container.innerHTML = output;
+
+    attachButtonHandlers();
   });
 };
 
 const attachButtonHandlers = () => {
   console.log("Attaching button handlers");
   $(".button").on("click", (e) => {
-    console.log("Click");
-    console.log($(e.currentTarget).attr('data-game'));
-
     const $this = $(e.currentTarget);
 
     if ($this.hasClass("active")) {
@@ -55,10 +60,28 @@ const attachLogoutHandler = () => {
   });
 };
 
+const getUsers = () => {
+  console.log("about to get users");
+  // db.ref("users/").on("value", (snapshot) => {
+  //   const isUsers = snapshot.exists();
+  //   console.log("users exists?", snapshot.val());
+  //   console.log(isUsers);
+
+
+  // });
+  // const fakeUID = "sdfsdkljj8wefw0";
+  // const fakeUserObject = {email: "grant@formswim.com", first_name: "granny", last_name: "tranny"};
+  // db.ref(`users/${fakeUID}`).set(fakeUserObject).then((what) => {
+  //   console.log("done setting");
+  //   console.log(what);
+  // });
+};
+
 const init  = () => {
   showGames();
-  attachButtonHandlers();
   attachLogoutHandler();
+
+  getUsers();
 };
 
 document.addEventListener("DOMContentLoaded", init);
