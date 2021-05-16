@@ -39,17 +39,17 @@
       const db = firebase.database();
     </script> 
     <script>
-      let userObj; // global user object to be used
-      auth.onAuthStateChanged(function(user) {
-        if (user) {
-          console.log("signed in");
-          console.log(user);
-          userObj = user;
-        } else {
-          // No user is signed in.
-          window.location.replace('login.html')
-        }
-      });
+      // let userObj; // global user object to be used
+      // auth.onAuthStateChanged(function(user) {
+      //   if (user) {
+      //     console.log("signed in");
+      //     console.log(user);
+      //     userObj = user;
+      //   } else {
+      //     // No user is signed in.
+      //     window.location.replace('login.html')
+      //   }
+      // });
     </script>
     <!-- ios support -->
     <link rel="apple-touch-icon" href="images/icons/icon-72x72.png">

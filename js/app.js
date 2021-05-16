@@ -1,15 +1,19 @@
+let gamesOnLoad; // Global object for games
+let usersCompleteDataObject; // Global object for the current user's list of games and statuses
+let userObj; // global user object to be used
 const showGames = () => {
   let output = "";
   let isInitialLoad = true;
-  db.ref("games/").on("value", (snapshot) => {
+  return db.ref("games/").on("value", (snapshot) => {
     if (! isInitialLoad) {
       return;
     }
-    const games = snapshot.val();
-    console.log(games);
+    // const games = snapshot.val();
+    gamesOnLoad = snapshot.val();
+    console.log(gamesOnLoad);
 
-    for (const key in games) {
-      const game = games[key];
+    for (const key in gamesOnLoad) {
+      const game = gamesOnLoad[key];
       const date = game.date;
       const time = game.time;
       const rink = game.rink;
@@ -101,8 +105,10 @@ const updateAttendance = (gameIndex, uid, gameAction) => {
   }
 };
 
-const getUsers = () => {
-  // console.log("about to get users");
+const getUserGamesStatus = () => {
+  return db.ref(`users/${userObj.uid}`).on("value", (snapshot) => {
+    usersCompleteDataObject = snapshot.val();
+  });
   // db.ref("users/").on("value", (snapshot) => {
   //   const isUsers = snapshot.exists();
   //   console.log("users exists?", snapshot.val());
@@ -119,10 +125,25 @@ const getUsers = () => {
 };
 
 const init  = () => {
-  showGames();
+  // let userObj; // global user object to be used
+  auth.onAuthStateChanged(async function(user) {
+    if (user) {
+      console.log("signed in");
+      console.log(user);
+      userObj = user;
+
+      await getUserGamesStatus();
+      await showGames();
+
+    } else {
+      // No user is signed in.
+      window.location.replace('login.html')
+    }
+  });
+  // showGames();
   attachLogoutHandler();
 
-  getUsers();
+  // getUserGamesStatus();
 };
 
 document.addEventListener("DOMContentLoaded", init);
