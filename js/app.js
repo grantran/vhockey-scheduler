@@ -1,6 +1,10 @@
 const showGames = () => {
   let output = "";
+  let isInitialLoad = true;
   db.ref("games/").on("value", (snapshot) => {
+    if (! isInitialLoad) {
+      return;
+    }
     const games = snapshot.val();
     console.log(games);
 
@@ -22,8 +26,8 @@ const showGames = () => {
               <h2>${team} Team</h2>
             </div>
             <div class="button-container" >
-              <button data-game=${gameNumber} class="neutral button button--accept">In!</button>
-              <button data-game=${gameNumber} class="neutral button button--decline">Out</button>
+              <button data-game=${gameNumber} data-key=${key} data-action="attending" class="neutral button button--accept">In!</button>
+              <button data-game=${gameNumber} data-key=${key} data-action="absent" class="neutral button button--decline">Out</button>
             </div>
           </div>`;
     }
@@ -32,13 +36,18 @@ const showGames = () => {
     container.innerHTML = output;
 
     attachButtonHandlers();
+    isInitialLoad = false;
   });
 };
 
 const attachButtonHandlers = () => {
-  console.log("Attaching button handlers");
+  console.log("Attaching button handlers", userObj);
   $(".button").on("click", (e) => {
     const $this = $(e.currentTarget);
+
+    const gameKey = $this.attr("data-key");
+    const gameAction = $this.attr("data-action");
+    updateAttendance(gameKey, userObj.uid, gameAction);
 
     if ($this.hasClass("active")) {
       $this.removeClass("active");
@@ -60,8 +69,40 @@ const attachLogoutHandler = () => {
   });
 };
 
+const updateAttendance = (gameIndex, uid, gameAction) => {
+  const statuses = ["attending", "absent", "uncertain"];
+
+  // Update the user
+  const trueUserObject = {};
+  const falseUserObject = {};
+
+  trueUserObject[gameIndex] = true;
+  falseUserObject[gameIndex] = false;
+  db.ref(`users/${uid}/${gameAction}`).set(trueUserObject);
+
+  const statusIndex = statuses.indexOf(gameAction);
+  statuses.splice(statusIndex, 1);
+
+  for (const falseAction of statuses) {
+    db.ref(`users/${uid}/${falseAction}`).set(falseUserObject);
+  }
+
+  // Update the games
+  const trueGameObject = {};
+  const falseGameObject = {};
+
+  trueGameObject[uid] = true;
+  falseGameObject[uid] = false;
+
+  db.ref(`games/${gameIndex}/${gameAction}`).set(trueGameObject);
+
+  for (const falseAction of statuses) {
+    db.ref(`games/${gameIndex}/${falseAction}`).set(falseGameObject);
+  }
+};
+
 const getUsers = () => {
-  console.log("about to get users");
+  // console.log("about to get users");
   // db.ref("users/").on("value", (snapshot) => {
   //   const isUsers = snapshot.exists();
   //   console.log("users exists?", snapshot.val());
