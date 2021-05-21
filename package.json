@@ -1,0 +1,24 @@
+{
+  "name": "vhockey-scheduler",
+  "version": "1.0.0",
+  "description": "VHS - A scheduler for VAG Hockey. Built as a PWA",
+  "main": "serviceWorker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "scss": "node-sass --watch scss -o css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grantran/vhockey-scheduler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grantran/vhockey-scheduler/issues"
+  },
+  "homepage": "https://github.com/grantran/vhockey-scheduler#readme",
+  "devDependencies": {
+    "node-sass": "^6.0.0"
+  }
+}

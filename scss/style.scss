@@ -2,14 +2,15 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box; }
-
+  box-sizing: border-box;
+}
 /* RESETS */
 /* Box sizing rules */
 *,
 *::before,
 *::after {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+}
 
 /* Remove default margin */
 body,
@@ -19,7 +20,8 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0; }
+  margin: 0;
+}
 
 p,
 li,
@@ -27,14 +29,21 @@ h1,
 h2,
 h3,
 h4 {
-  word-break: break-word; }
+  // Help prevent overflow of long words/names/URLs
+  word-break: break-word;
+
+  // Optional, not supported for all languages
+  // hyphens: auto;
+}
 
 html,
 body {
-  overflow-x: hidden; }
+  overflow-x: hidden;
+}
 
 html {
-  scroll-behavior: smooth; }
+  scroll-behavior: smooth;
+}
 
 /* Set core body defaults */
 body {
@@ -42,72 +51,105 @@ body {
   font-family: sans-serif;
   font-size: 100%;
   line-height: 1.5;
-  text-rendering: optimizeSpeed; }
+  text-rendering: optimizeSpeed;
+}
 
 /* Make images easier to work with */
 img {
   display: block;
-  max-width: 100%; }
+  max-width: 100%;
+}
 
 /* Inherit fonts for inputs and buttons */
 input,
 button,
 textarea,
 select {
-  font: inherit; }
+  font: inherit;
+}
 
 /* END RESETS */
+
+@mixin phone-only {
+  @media (max-width: 599px) { @content; }
+}
+@mixin tablet-portrait-up {
+  @media (min-width: 600px) { @content; }
+}
+@mixin tablet-landscape-up {
+  @media (min-width: 900px) { @content; }
+}
+@mixin desktop-up {
+  @media (min-width: 1200px) { @content; }
+}
+@mixin big-desktop-up {
+  @media (min-width: 1800px) { @content; }
+}
+
 /* GENERAL PARAMS */
 body {
   background: #fdfdfd;
   font-family: "Nunito", sans-serif;
-  font-size: 1rem; }
+  font-size: 1rem;
+}
 
 main {
   max-width: 1280px;
   margin: auto;
   padding: 0.5rem;
-  text-align: center; }
+  text-align: center;
+}
 
 ul {
   list-style: none;
   display: flex;
-  padding: 5px; }
+  padding: 5px;
+}
 
 ul.column-list {
-  flex-direction: column; }
+  flex-direction: column;
+}
 
 li {
-  margin: 0 5px; }
+  margin: 0 5px;
+}
 
 h1 {
   color: #222;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+}
 
 h2 {
   color: #222;
   margin-bottom: 0.4rem;
   text-align: left;
-  font-size: 20px; }
+  font-size: 20px;
+}
 
 h4.game-number {
   text-align: left;
-  font-size: 14px; }
+  font-size: 14px;
+}
 
 /* END GENERAL PARAMS */
+
 /* HEADER AND NAV */
 .header-link {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 nav {
   display: flex;
   justify-content: space-between;
-  align-items: center; }
-  @media (max-width: 599px) {
-    nav {
-      flex-direction: column; } }
+  align-items: center;
 
+  @include phone-only {
+    flex-direction: column;
+  }
+}
 /* END HEADER AND NAV */
+
+
 /* MAIN CARD CONTAINER */
 .container {
   display: flex;
@@ -118,8 +160,8 @@ nav {
   justify-content: center;
   align-items: center;
   margin: auto;
-  padding: 1rem 0; }
-
+  padding: 1rem 0;
+}
 .card {
   display: flex;
   align-items: center;
@@ -131,28 +173,33 @@ nav {
   border-radius: 10px;
   /* margin: auto; */
   padding: 20px;
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 .card--avatar {
   width: 100%;
   height: 10rem;
-  object-fit: cover; }
+  object-fit: cover;
+}
 
 .card--game-info {
   width: 100%;
-  height: 100%; }
+  height: 100%;
+}
 
 .card--title {
   color: #222;
   font-weight: 700;
   text-transform: capitalize;
   font-size: 1.1rem;
-  margin-top: 0.5rem; }
+  margin-top: 0.5rem;
+}
 
 .button-container {
   display: flex;
   justify-content: space-evenly;
-  width: 100%; }
+  width: 100%;
+}
 
 .button {
   text-decoration: none;
@@ -166,10 +213,12 @@ nav {
   -moz-border-radius: 28;
   border-radius: 38px;
   color: #ffffff;
-  outline: none; }
+  outline: none;
+}
 
 .button:hover {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 .button--decline {
   background: #ff5e57;
@@ -177,12 +226,14 @@ nav {
   background-image: -moz-linear-gradient(top, #ff3f34, #ff5e57);
   background-image: -ms-linear-gradient(top, #ff3f34, #ff5e57);
   background-image: -o-linear-gradient(top, #ff3f34, #ff5e57);
-  background-image: linear-gradient(to bottom, #ff3f34, #ff5e57); }
+  background-image: linear-gradient(to bottom, #ff3f34, #ff5e57);
+}
 
 .button--decline:hover {
   background: #f53b57;
   text-decoration: none;
-  font-weight: 700; }
+  font-weight: 700;
+}
 
 .button--accept {
   background: #7bed9f;
@@ -190,95 +241,108 @@ nav {
   background-image: -moz-linear-gradient(top, #7bed9f, #05c46b);
   background-image: -ms-linear-gradient(top, #7bed9f, #05c46b);
   background-image: -o-linear-gradient(top, #7bed9f, #05c46b);
-  background-image: linear-gradient(to bottom, #7bed9f, #05c46b); }
+  background-image: linear-gradient(to bottom, #7bed9f, #05c46b);
+}
 
 .button--accept:hover {
   background: #0be881;
   text-decoration: none;
-  font-weight: 700; }
+  font-weight: 700;
+}
 
 .button.active.button--accept {
   border: 2px solid #222;
   background: #0be881;
-  font-weight: 700; }
+  font-weight: 700;
+}
 
 .button.active.button--decline {
   border: 2px solid #222;
   background: #f53b57;
-  font-weight: 700; }
+  font-weight: 700;
+}
 
 .button.inactive.button--accept {
   /* border: 2px solid #222; */
   opacity: 50%;
-  /* font-weight: 700; */ }
+  /* font-weight: 700; */
+}
 
 .button.inactive.button--decline {
-  opacity: 50%; }
+  opacity: 50%;
+}
 
 /* END MAIN CARD CONTAINER */
+
+
+
+
 /* GENERAL MODAL */
 .modal {
-  display: none;
-  /* Hidden by default */
-  position: fixed;
-  /* Stay in place */
-  z-index: 1;
-  /* Sit on top */
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
-  width: 100%;
-  /* Full width */
-  height: 100%;
-  /* Full height */
-  overflow: auto;
-  /* Enable scroll if needed */
-  background-color: black;
-  /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4);
-  /* Black w/ opacity */ }
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
-  /* 15% from the top and centered */
+  margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 60%;
-  /* Could be more or less, depending on screen size */ }
-  @media (max-width: 599px) {
-    .modal-content {
-      width: 90%; } }
+  width: 60%; /* Could be more or less, depending on screen size */
+
+  @include phone-only {
+    width:90%
+  }
+}
 
 /* The Close Button */
-.close-modal {
+.close-modal{
   color: #aaa;
   float: right;
   font-size: 28px;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .close:hover,
 .close:focus {
   color: black;
   text-decoration: none;
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 /* END GENERAL MODAL */
+
 /* MY GAMES */
+
 #my-games-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; }
-  #my-games-container .games-status-div {
+  align-items: center;
+
+  .games-status-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; }
-    #my-games-container .games-status-div h1 {
-      font-size: 24px; }
-      @media (max-width: 599px) {
-        #my-games-container .games-status-div h1 {
-          font-size: 16px; } }
+    align-items: center;
+
+    h1 {
+      font-size: 24px;
+
+      @include phone-only {
+        font-size: 16px;
+      }
+    }
+  }
+}
 
 /* END MY GAMES */

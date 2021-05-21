@@ -66,6 +66,7 @@ const showGames = () => {
 
     getGameAttendance();
     attachButtonHandlers();
+    updateMyGames();
     isInitialLoad = false;
   });
 };
@@ -103,7 +104,26 @@ const attachMyGamesHandler = () => {
       }
     }
   });
+};
 
+const attachMyProfileHandler = () => {
+  $("#my-profile").on("click", () => {
+    const $modal = $('#my-profile-modal');
+    
+    $modal.css("display", "block");
+
+    $(".close-modal").on("click", ()=> { 
+      $modal.css("display", "none")
+    });
+
+    const modal = document.getElementById("my-profile-modal");
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  });
 };
 
 const attachLogoutHandler = () => {
@@ -158,7 +178,7 @@ const getGameAttendance = () => {
   for (const key in gamesOnLoad) {
     attendanceObject[key] = [];
     const gameAttendingObject = gamesOnLoad[key].attending;
-    console.log("GAMES ATTENDING", gameAttendingObject);
+
     const gameAttendingTrueObject = Object.keys(gameAttendingObject).reduce((p, c) => {    
       if (gameAttendingObject[c] === true) p[c] = gameAttendingObject[c];
       return p;
@@ -177,9 +197,38 @@ const getGameAttendance = () => {
 
 const updateMyGames = () => {
   const { attending, absent, uncertain } = usersCompleteDataObject;
-  for (const attend in usersCompleteDataObject[attending]) {
 
+  for (const gameKey in attending) {
+    if (attending[gameKey]) {
+      $('#my-games-container > .games-attending > .attending-list').append(
+        createMyGameElement(gameKey, "attend")
+      );
+    }
   }
+
+  for (const gameKey in absent) {
+    if (absent[gameKey]) {
+      $('#my-games-container > .games-absent > .absent-list').append(
+        createMyGameElement(gameKey, "absent")
+      );
+    }
+  }
+
+  for (const gameKey in uncertain) {
+    if (uncertain[gameKey]) {
+      $('#my-games-container > .games-uncertain > .uncertain-list').append(
+        createMyGameElement(gameKey, "uncertain")
+      );
+    }
+  }
+};
+
+// Specifically returns a <li> element
+const createMyGameElement = (game_key, status) => {
+  const gameDate = gamesOnLoad[game_key].date;
+  const htmlStr = `<li data-game=${game_key} data-status=${status}>${game_key} - ${gameDate}`;
+
+  return $.parseHTML(htmlStr);
 };
 
 const init  = () => {
@@ -198,6 +247,7 @@ const init  = () => {
       window.location.replace('login.html')
     }
   });
+  attachMyProfileHandler();
   attachMyGamesHandler();
   attachLogoutHandler();
 };

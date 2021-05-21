@@ -1,4 +1,4 @@
-const staticDevCoffee = "dev-coffee-site-v1";
+const staticVHS = "VHS-Dev";
 const assets = [
   "/",
   "/index.html",
@@ -12,12 +12,15 @@ const assets = [
   "/images/coffee6.jpg",
   "/images/coffee7.jpg",
   "/images/coffee8.jpg",
-  "/images/coffee9.jpg"
+  "/images/coffee9.jpg",
+  "/images/v_logo.jpg",
+  "/images/v_shoulder_1.jpg",
+  "/images/v_shoulder_2.jpg"
 ];
 
 self.addEventListener("install", installEvent => {
   installEvent.waitUntil(
-    caches.open(staticDevCoffee).then(cache => {
+    caches.open(staticVHS).then(cache => {
       cache.addAll(assets);
     })
   );

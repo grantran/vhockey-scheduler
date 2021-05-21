@@ -67,36 +67,50 @@
   <body>
     <main>
       <nav>
-        <h1>VHS</h1>
+        <h1>VHS - VAG Hockey Scheduler</h1>
         <ul>
-          <li>Home</li>
+          <li id="my-profile" class="header-link">My Profile</li>
           <li id="my-games" class="header-link">My Games</li>
+
           <li id="logout-link" class="header-link">Logout</li>
         </ul>
       </nav>
       <div class="container"></div>
 
-      <!-- The Modal -->
+      <!-- My Games Modal -->
       <div id="my-games-modal" class="modal">
 
-        <!-- Modal content -->
+        <!-- My Games Modal content -->
         <div class="modal-content">
-          <span class="close-modal">&times;</span>
+          <span class="close-modal" style="cursor: pointer;">&times;</span>
           <div id="my-games-container">
-            <div class="games-attending">
+            <div class="games-attending games-status-div">
               <h1>Games you're in for</h1>
-              <ul class="attending-list"></ul>
+              <ul class="attending-list column-list"></ul>
             </div>
 
-            <div class="games-absent">
+            <div class="games-absent games-status-div">
               <h1>Games you're out for</h1>
-              <ul class="absent-list"></ul>
+              <ul class="absent-list column-list"></ul>
             </div>
 
-            <div class="games-uncertain">
+            <div class="games-uncertain games-status-div">
               <h1>Games you haven't responded to.</h1>
-              <ul class="uncertain-list"></ul>
+              <ul class="uncertain-list column-list"></ul>
             </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- My Profile Modal -->
+      <div id="my-profile-modal" class="modal">
+
+        <!-- My Profile Modal content -->
+        <div class="modal-content">
+          <span class="close-modal" style="cursor: pointer;">&times;</span>
+          <div id="my-profile-container">
+            <p>Fill in your profile please</p>
           </div>
         </div>
 

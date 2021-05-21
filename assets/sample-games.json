@@ -15,6 +15,54 @@
       "uncertain": {
         "GjRUpwMWydSsicdfUXKArUgApZn1": true
       }
+    },
+    "game_2": {
+      "date": "Thursday September 21st 2021",
+      "time": "8PM",
+      "rink": 4,
+      "team": "Away",
+      "gameNumber": 1,
+      "attending": {
+        "GjRUpwMWydSsicdfUXKArUgApZn1": false
+      },
+      "absent": {
+        "GjRUpwMWydSsicdfUXKArUgApZn1": false
+      },
+      "uncertain": {
+        "GjRUpwMWydSsicdfUXKArUgApZn1": true
+      }
+    },
+    "game_3": {
+      "date": "Saturday October 16th 2021",
+      "time": "8PM",
+      "rink": 4,
+      "team": "Away",
+      "gameNumber": 1,
+      "attending": {
+        "GjRUpwMWydSsicdfUXKArUgApZn1": false
+      },
+      "absent": {
+        "GjRUpwMWydSsicdfUXKArUgApZn1": false
+      },
+      "uncertain": {
+        "GjRUpwMWydSsicdfUXKArUgApZn1": true
+      }
+    },
+    "game_4": {
+      "date": "Monday November 22nd 2021",
+      "time": "8PM",
+      "rink": 4,
+      "team": "Away",
+      "gameNumber": 1,
+      "attending": {
+        "GjRUpwMWydSsicdfUXKArUgApZn1": false
+      },
+      "absent": {
+        "GjRUpwMWydSsicdfUXKArUgApZn1": false
+      },
+      "uncertain": {
+        "GjRUpwMWydSsicdfUXKArUgApZn1": true
+      }
     }
   },
   "users": {
@@ -22,13 +70,22 @@
       "email": "grant.tran@gmail.com",
       "isGoalie": false,
       "attending": {
-        "game_1": false
+        "game_1": false,
+        "game_2": false,
+        "game_3": false,
+        "game_4": false
       },
       "absent": {
-        "game_1": false
+        "game_1": false,
+        "game_2": false,
+        "game_3": false,
+        "game_4": false
       },
       "uncertain": {
-        "game_1": true
+        "game_1": true,
+        "game_2": true,
+        "game_3": true,
+        "game_4": true
       }
     }
   }
