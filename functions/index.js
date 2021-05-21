@@ -33,25 +33,14 @@ exports.user_register = functions.auth.user().onCreate(async (user) => {
       let absentObj = {};
       let uncertainObj = {};
 
-      // These if blocks grab the current attending / absent / uncertain object if they exist
-      if ("attending" in games[key]) {
-        attendingObj = { ... games[key]["attending"]};
-      }
-      if ("absent" in games[key]) {
-        absentObj = { ... games[key]["absent"]};
-      }
-      if ("uncertain" in games[key]) {
-        uncertainObj = { ... games[key]["uncertain"]};
-      }
-
       // appends the new user id to the 3 objects with the initial state
       attendingObj[uid] = false;
       absentObj[uid] = false;
       uncertainObj[uid] = true;
 
-      root.ref(`games/${key}/attending`).set(attendingObj);
-      root.ref(`games/${key}/absent`).set(absentObj);
-      root.ref(`games/${key}/uncertain`).set(uncertainObj);
+      root.ref(`games/${key}/attending`).update(attendingObj);
+      root.ref(`games/${key}/absent`).update(absentObj);
+      root.ref(`games/${key}/uncertain`).update(uncertainObj);
     }
 
     userObject["uncertain"] = uncertain;

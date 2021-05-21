@@ -70,11 +70,38 @@
         <h1>VHS</h1>
         <ul>
           <li>Home</li>
-          <li>About</li>
-          <li id="logout-link">Logout</li>
+          <li id="my-games" class="header-link">My Games</li>
+          <li id="logout-link" class="header-link">Logout</li>
         </ul>
       </nav>
       <div class="container"></div>
+
+      <!-- The Modal -->
+      <div id="my-games-modal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <div id="my-games-container">
+            <div class="games-attending">
+              <h1>Games you're in for</h1>
+              <ul class="attending-list"></ul>
+            </div>
+
+            <div class="games-absent">
+              <h1>Games you're out for</h1>
+              <ul class="absent-list"></ul>
+            </div>
+
+            <div class="games-uncertain">
+              <h1>Games you haven't responded to.</h1>
+              <ul class="uncertain-list"></ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </main>
     <script
       src="https://code.jquery.com/jquery-3.6.0.slim.min.js"

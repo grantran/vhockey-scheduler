@@ -1,6 +1,7 @@
 let gamesOnLoad; // Global object for games
 let usersCompleteDataObject; // Global object for the current user's list of games and statuses
 let userObj; // global user object to be used
+let attendanceObject = {}; // global for players statuses
 const showGames = () => {
   let output = "";
   let isInitialLoad = true;
@@ -10,7 +11,7 @@ const showGames = () => {
     }
     // const games = snapshot.val();
     gamesOnLoad = snapshot.val();
-    console.log(gamesOnLoad);
+    console.log("GAMES ON LOAD", gamesOnLoad);
 
     for (const key in gamesOnLoad) {
       const game = gamesOnLoad[key];
@@ -19,6 +20,30 @@ const showGames = () => {
       const rink = game.rink;
       const team = game.team;
       const gameNumber = game.gameNumber;
+
+      let currentGameStatus = "uncertain";
+
+      if (usersCompleteDataObject.attending[key]) {
+        currentGameStatus = "attending";
+      }
+
+      if (usersCompleteDataObject.absent[key]) {
+        currentGameStatus = "absent";
+      }
+
+      let attendingButtonClasses ="neutral button button--accept";
+      let absentButtonClasses = "neutral button button--decline";
+
+      switch(currentGameStatus) {
+        case "attending":
+          attendingButtonClasses += " active";
+          absentButtonClasses += " inactive";
+          break;
+        case "absent":
+          attendingButtonClasses += " inactive";
+          absentButtonClasses += " active";
+          break;
+      }
 
       output += `
           <div class="card" data-game=${gameNumber}>
@@ -30,8 +55,8 @@ const showGames = () => {
               <h2>${team} Team</h2>
             </div>
             <div class="button-container" >
-              <button data-game=${gameNumber} data-key=${key} data-action="attending" class="neutral button button--accept">In!</button>
-              <button data-game=${gameNumber} data-key=${key} data-action="absent" class="neutral button button--decline">Out</button>
+              <button data-game=${gameNumber} data-key=${key} data-action="attending" class="${attendingButtonClasses}">In!</button>
+              <button data-game=${gameNumber} data-key=${key} data-action="absent" class="${absentButtonClasses}">Out</button>
             </div>
           </div>`;
     }
@@ -39,13 +64,14 @@ const showGames = () => {
     const container = document.querySelector(".container");
     container.innerHTML = output;
 
+    getGameAttendance();
     attachButtonHandlers();
     isInitialLoad = false;
   });
 };
 
 const attachButtonHandlers = () => {
-  console.log("Attaching button handlers", userObj);
+  console.log("Attaching button handlers", usersCompleteDataObject);
   $(".button").on("click", (e) => {
     const $this = $(e.currentTarget);
 
@@ -53,14 +79,31 @@ const attachButtonHandlers = () => {
     const gameAction = $this.attr("data-action");
     updateAttendance(gameKey, userObj.uid, gameAction);
 
-    if ($this.hasClass("active")) {
-      $this.removeClass("active");
-      $this.siblings('button').removeClass("inactive");
-    } else {
+    if (! $this.hasClass("active")) {
       $this.addClass("active").removeClass("inactive");
       $this.siblings('button').addClass("inactive").removeClass("active");
     }
   });
+};
+
+const attachMyGamesHandler = () => {
+  $("#my-games").on("click", () => {
+    const $modal = $('#my-games-modal');
+    
+    $modal.css("display", "block");
+
+    $(".close-modal").on("click", ()=> { 
+      $modal.css("display", "none")
+    });
+
+    const modal = document.getElementById("my-games-modal");
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  });
+
 };
 
 const attachLogoutHandler = () => {
@@ -82,13 +125,13 @@ const updateAttendance = (gameIndex, uid, gameAction) => {
 
   trueUserObject[gameIndex] = true;
   falseUserObject[gameIndex] = false;
-  db.ref(`users/${uid}/${gameAction}`).set(trueUserObject);
+  db.ref(`users/${uid}/${gameAction}`).update(trueUserObject);
 
   const statusIndex = statuses.indexOf(gameAction);
   statuses.splice(statusIndex, 1);
 
   for (const falseAction of statuses) {
-    db.ref(`users/${uid}/${falseAction}`).set(falseUserObject);
+    db.ref(`users/${uid}/${falseAction}`).update(falseUserObject);
   }
 
   // Update the games
@@ -98,10 +141,10 @@ const updateAttendance = (gameIndex, uid, gameAction) => {
   trueGameObject[uid] = true;
   falseGameObject[uid] = false;
 
-  db.ref(`games/${gameIndex}/${gameAction}`).set(trueGameObject);
+  db.ref(`games/${gameIndex}/${gameAction}`).update(trueGameObject);
 
   for (const falseAction of statuses) {
-    db.ref(`games/${gameIndex}/${falseAction}`).set(falseGameObject);
+    db.ref(`games/${gameIndex}/${falseAction}`).update(falseGameObject);
   }
 };
 
@@ -109,19 +152,34 @@ const getUserGamesStatus = () => {
   return db.ref(`users/${userObj.uid}`).on("value", (snapshot) => {
     usersCompleteDataObject = snapshot.val();
   });
-  // db.ref("users/").on("value", (snapshot) => {
-  //   const isUsers = snapshot.exists();
-  //   console.log("users exists?", snapshot.val());
-  //   console.log(isUsers);
+};
 
+const getGameAttendance = () => {
+  for (const key in gamesOnLoad) {
+    attendanceObject[key] = [];
+    const gameAttendingObject = gamesOnLoad[key].attending;
+    console.log("GAMES ATTENDING", gameAttendingObject);
+    const gameAttendingTrueObject = Object.keys(gameAttendingObject).reduce((p, c) => {    
+      if (gameAttendingObject[c] === true) p[c] = gameAttendingObject[c];
+      return p;
+    }, {});
 
-  // });
-  // const fakeUID = "sdfsdkljj8wefw0";
-  // const fakeUserObject = {email: "grant@formswim.com", first_name: "granny", last_name: "tranny"};
-  // db.ref(`users/${fakeUID}`).set(fakeUserObject).then((what) => {
-  //   console.log("done setting");
-  //   console.log(what);
-  // });
+    for (const uid in gameAttendingTrueObject) {
+      db.ref(`users/${uid}/email`).on("value", (snapshot) => {
+        const email = snapshot.val();
+        attendanceObject[key].push(email);
+      });
+    }
+  }
+
+  console.log("ATTENDANCE OBJECT", attendanceObject);
+};
+
+const updateMyGames = () => {
+  const { attending, absent, uncertain } = usersCompleteDataObject;
+  for (const attend in usersCompleteDataObject[attending]) {
+
+  }
 };
 
 const init  = () => {
@@ -140,10 +198,8 @@ const init  = () => {
       window.location.replace('login.html')
     }
   });
-  // showGames();
+  attachMyGamesHandler();
   attachLogoutHandler();
-
-  // getUserGamesStatus();
 };
 
 document.addEventListener("DOMContentLoaded", init);
