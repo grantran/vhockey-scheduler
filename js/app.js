@@ -126,6 +126,15 @@ const attachMyProfileHandler = () => {
   });
 };
 
+const attachProfileFormHandler = (e) => {
+  $("#profile-form").on("submit", function(e){
+    e.preventDefault();
+
+    console.log("submitted");
+    console.log(e);
+  })
+};
+
 const attachLogoutHandler = () => {
   $('#logout-link').on("click", () => {
     firebase.auth().signOut().then(function() {
@@ -249,6 +258,7 @@ const init  = () => {
   });
   attachMyProfileHandler();
   attachMyGamesHandler();
+  attachProfileFormHandler();
   attachLogoutHandler();
 };
 
