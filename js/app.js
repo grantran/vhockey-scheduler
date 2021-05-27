@@ -13,6 +13,9 @@ const showGames = () => {
     gamesOnLoad = snapshot.val();
     console.log("GAMES ON LOAD", gamesOnLoad);
 
+    // Calling this first so we can get the number of players to render the html
+    getGameAttendance();
+
     for (const key in gamesOnLoad) {
       const game = gamesOnLoad[key];
       const date = game.date;
@@ -45,6 +48,8 @@ const showGames = () => {
           break;
       }
 
+      const attendingPlayersOfGame = attendanceObject[key].length;
+
       output += `
           <div class="card" data-game=${gameNumber}>
             <div class="card--game-info">
@@ -53,6 +58,7 @@ const showGames = () => {
               <h2>Time: ${time}</h2>
               <h2>Rink: ${rink}</h2>
               <h2>${team} Team</h2>
+              <h3 data-game=${key} class="game-attendance-trigger">${attendingPlayersOfGame} Attending - View Players</h3>
             </div>
             <div class="button-container" >
               <button data-game=${gameNumber} data-key=${key} data-action="attending" class="${attendingButtonClasses}">In!</button>
@@ -64,10 +70,10 @@ const showGames = () => {
     const container = document.querySelector(".container");
     container.innerHTML = output;
 
-    getGameAttendance();
     attachButtonHandlers();
     updateMyGames();
     attachProfileFormHandler();
+    attachGameAttendanceHandler();
     isInitialLoad = false;
   });
 };
@@ -156,6 +162,40 @@ const attachProfileFormHandler = () => {
       console.log("profile updated failed", e);
     });
   })
+};
+
+const attachGameAttendanceHandler = () => {
+  $(".game-attendance-trigger").on("click", (e) => {
+    const $this = $(e.currentTarget);
+
+    const gameKey = $this.attr("data-game");
+    const game = attendanceObject[gameKey];
+    console.log("GAME", game);
+    for (const player of game) {
+      const htmlStr = `<li data-game=${gameKey} data-status=attending>${player}</li>`;
+
+      const htmlObj = $.parseHTML(htmlStr);
+
+      $('#game-attendance-container > .players-list > .attending-list').append(htmlObj);
+    }
+
+    const $modal = $('#game-attendance-modal');
+    
+    $modal.css("display", "block");
+
+    $(".close-modal").on("click", ()=> { 
+      $modal.css("display", "none")
+    });
+
+    const modal = document.getElementById("game-attendance-modal");
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    
+  });
 };
 
 const attachLogoutHandler = () => {
@@ -255,10 +295,10 @@ const updateMyGames = () => {
   }
 };
 
-// Specifically returns a <li> element
+// Specifically returns a <li> element for game attendance
 const createMyGameElement = (game_key, status) => {
   const gameDate = gamesOnLoad[game_key].date;
-  const htmlStr = `<li data-game=${game_key} data-status=${status}>${game_key} - ${gameDate}`;
+  const htmlStr = `<li data-game=${game_key} data-status=${status}>${game_key} - ${gameDate}</li>`;
 
   return $.parseHTML(htmlStr);
 };
