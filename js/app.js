@@ -67,6 +67,7 @@ const showGames = () => {
     getGameAttendance();
     attachButtonHandlers();
     updateMyGames();
+    attachProfileFormHandler();
     isInitialLoad = false;
   });
 };
@@ -126,12 +127,34 @@ const attachMyProfileHandler = () => {
   });
 };
 
-const attachProfileFormHandler = (e) => {
+const attachProfileFormHandler = () => {
+  // Fill in the values for the current profile 
+  const $profileForm = $("#profile-form");
+  $profileForm.children("input#first_name").val(usersCompleteDataObject.first_name);
+  $profileForm.children("input#last_name").val(usersCompleteDataObject.last_name);
+  $profileForm.children("input#phone").val(usersCompleteDataObject.phone);
+  $profileForm.children("input#jerseyno").val(usersCompleteDataObject.jerseyno);
+  // Form handler
   $("#profile-form").on("submit", function(e){
     e.preventDefault();
 
     console.log("submitted");
-    console.log(e);
+    console.log($(this).serializeArray());
+    const formArray = $(this).serializeArray();
+    const profileObj = {};
+
+    for (const fieldObj of formArray) {
+      profileObj[fieldObj.name] = fieldObj.value;
+    }
+
+    console.log(profileObj);
+    db.ref(`users/${userObj.uid}`).update(profileObj)
+    .then(() => {
+      console.log("profile updated successfully", usersCompleteDataObject);
+    })
+    .catch((e) => {
+      console.log("profile updated failed", e);
+    });
   })
 };
 
@@ -258,7 +281,6 @@ const init  = () => {
   });
   attachMyProfileHandler();
   attachMyGamesHandler();
-  attachProfileFormHandler();
   attachLogoutHandler();
 };
 
