@@ -317,6 +317,9 @@ nav {
   float: right;
   font-size: 28px;
   font-weight: bold;
+  position: relative;
+  top: 0;
+  right: 10px;
 }
 
 .close:hover,
@@ -340,7 +343,12 @@ nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    width: 100%;
+
+    ul {
+      align-items: flex-start;
+    }
 
     h1 {
       font-size: 24px;
@@ -353,3 +361,57 @@ nav {
 }
 
 /* END MY GAMES */
+
+/* MY PROFILE */
+
+#my-profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  #profile-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+
+    input[type=text], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=submit] {
+      -webkit-border-radius: 28;
+      -moz-border-radius: 28;
+      border-radius: 28px;
+      font-family: Arial;
+      color: #ffffff;
+      font-size: 20px;
+      background: #020065;
+      padding: 10px 20px 10px 20px;
+      margin: 20px;
+      text-decoration: none;
+      border:none;
+      align-self: center;
+    }
+
+    input[type=submit]:hover {
+      background: #FE0002;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    label {
+      font-weight: 700;
+    }
+  }
+}
+
+/* END MY PROFILE */

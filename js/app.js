@@ -2,6 +2,8 @@ let gamesOnLoad; // Global object for games
 let usersCompleteDataObject; // Global object for the current user's list of games and statuses
 let userObj; // global user object to be used
 let attendanceObject = {}; // global for players statuses
+let currentGameAttendanceListIndex = -1;
+
 const showGames = () => {
   let output = "";
   let isInitialLoad = true;
@@ -96,40 +98,13 @@ const attachButtonHandlers = () => {
 
 const attachMyGamesHandler = () => {
   $("#my-games").on("click", () => {
-    const $modal = $('#my-games-modal');
-    
-    $modal.css("display", "block");
-
-    $(".close-modal").on("click", ()=> { 
-      $modal.css("display", "none")
-    });
-
-    const modal = document.getElementById("my-games-modal");
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
+    showModal('#my-games-modal');
   });
 };
 
 const attachMyProfileHandler = () => {
   $("#my-profile").on("click", () => {
-    const $modal = $('#my-profile-modal');
-    
-    $modal.css("display", "block");
-
-    $(".close-modal").on("click", ()=> { 
-      $modal.css("display", "none")
-    });
-
-    const modal = document.getElementById("my-profile-modal");
-
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
+    showModal('#my-profile-modal');
   });
 };
 
@@ -167,35 +142,46 @@ const attachProfileFormHandler = () => {
 const attachGameAttendanceHandler = () => {
   $(".game-attendance-trigger").on("click", (e) => {
     const $this = $(e.currentTarget);
-
     const gameKey = $this.attr("data-game");
-    const game = attendanceObject[gameKey];
-    console.log("GAME", game);
-    for (const player of game) {
-      const htmlStr = `<li data-game=${gameKey} data-status=attending>${player}</li>`;
 
-      const htmlObj = $.parseHTML(htmlStr);
-
-      $('#game-attendance-container > .players-list > .attending-list').append(htmlObj);
-    }
-
-    const $modal = $('#game-attendance-modal');
-    
-    $modal.css("display", "block");
-
-    $(".close-modal").on("click", ()=> { 
-      $modal.css("display", "none")
-    });
-
-    const modal = document.getElementById("game-attendance-modal");
-
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
+    if (gameKey === "game_" + currentGameAttendanceListIndex) {
+      showModal('#game-attendance-modal');
+    } else {
+      const game = attendanceObject[gameKey];
+      console.log("GAME", game);
+      const $attendingList = $('#game-attendance-container > .players-list > .attending-list');
+      $attendingList.empty();
+      for (const player of game) {
+        const htmlStr = `<li data-game=${gameKey} data-status=attending>${player}</li>`;
+  
+        const htmlObj = $.parseHTML(htmlStr);
+  
+        $attendingList.append(htmlObj);
       }
+
+      showModal('#game-attendance-modal');
+
+      currentGameAttendanceListIndex = gameKey.split("_")[1];
     }
-    
   });
+};
+
+const showModal = (selector) => {
+  const $modal = $(selector);
+    
+  $modal.css("display", "block");
+
+  $(".close-modal").on("click", ()=> { 
+    $modal.css("display", "none")
+  });
+
+  const modal = document.getElementById(selector.split("#")[1]);
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
 };
 
 const attachLogoutHandler = () => {
@@ -298,7 +284,8 @@ const updateMyGames = () => {
 // Specifically returns a <li> element for game attendance
 const createMyGameElement = (game_key, status) => {
   const gameDate = gamesOnLoad[game_key].date;
-  const htmlStr = `<li data-game=${game_key} data-status=${status}>${game_key} - ${gameDate}</li>`;
+  const gameNumber = game_key.split("_")[1];
+  const htmlStr = `<li data-game=${game_key} data-status=${status}>G${gameNumber} - ${gameDate}</li>`;
 
   return $.parseHTML(htmlStr);
 };

@@ -261,7 +261,10 @@ nav {
   color: #aaa;
   float: right;
   font-size: 28px;
-  font-weight: bold; }
+  font-weight: bold;
+  position: relative;
+  top: 0;
+  right: 10px; }
 
 .close:hover,
 .close:focus {
@@ -280,7 +283,10 @@ nav {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; }
+    align-items: flex-start;
+    width: 100%; }
+    #my-games-container .games-status-div ul {
+      align-items: flex-start; }
     #my-games-container .games-status-div h1 {
       font-size: 24px; }
       @media (max-width: 599px) {
@@ -288,3 +294,44 @@ nav {
           font-size: 16px; } }
 
 /* END MY GAMES */
+/* MY PROFILE */
+#my-profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+  #my-profile-container #profile-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px; }
+    #my-profile-container #profile-form input[type=text], #my-profile-container #profile-form select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box; }
+    #my-profile-container #profile-form input[type=submit] {
+      -webkit-border-radius: 28;
+      -moz-border-radius: 28;
+      border-radius: 28px;
+      font-family: Arial;
+      color: #ffffff;
+      font-size: 20px;
+      background: #020065;
+      padding: 10px 20px 10px 20px;
+      margin: 20px;
+      text-decoration: none;
+      border: none;
+      align-self: center; }
+    #my-profile-container #profile-form input[type=submit]:hover {
+      background: #FE0002;
+      text-decoration: none;
+      cursor: pointer; }
+    #my-profile-container #profile-form label {
+      font-weight: 700; }
+
+/* END MY PROFILE */
