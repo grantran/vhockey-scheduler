@@ -284,6 +284,11 @@ const getGameAttendance = () => {
 const getAllPlayers = () => {
   return db.ref(`users/`).on("value", (snapshot) => {
     allUsersObj = snapshot.val();
+
+    // CHeck if the current user has a first_name, change globalPersonIdentifier
+    if (allUsersObj[userObj.uid].first_name) {
+      globalPersonIdentifier = "first_name";
+    }
   });
 };
 
