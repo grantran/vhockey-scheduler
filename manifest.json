@@ -2,7 +2,7 @@
   "name": "VAG Hockey Scheduler",
   "short_name": "VHS",
   "start_url": "index.html",
-  "display": "minimal-ui",
+  "display": "standalone",
   "background_color": "#fdfdfd",
   "theme_color": "#020065",
   "orientation": "portrait-primary",
