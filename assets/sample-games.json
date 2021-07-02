@@ -4,7 +4,7 @@
       "date": "Wednesday September 1st 2021",
       "time": "8PM",
       "rink": 4,
-      "team": "Away",
+      "team": "Home",
       "gameNumber": 1,
       "attending": {
         "GjRUpwMWydSsicdfUXKArUgApZn1": false
@@ -21,7 +21,7 @@
       "time": "8PM",
       "rink": 4,
       "team": "Away",
-      "gameNumber": 1,
+      "gameNumber": 2,
       "attending": {
         "GjRUpwMWydSsicdfUXKArUgApZn1": false
       },
@@ -36,8 +36,8 @@
       "date": "Saturday October 16th 2021",
       "time": "8PM",
       "rink": 4,
-      "team": "Away",
-      "gameNumber": 1,
+      "team": "Home",
+      "gameNumber": 3,
       "attending": {
         "GjRUpwMWydSsicdfUXKArUgApZn1": false
       },
@@ -53,7 +53,7 @@
       "time": "8PM",
       "rink": 4,
       "team": "Away",
-      "gameNumber": 1,
+      "gameNumber": 4,
       "attending": {
         "GjRUpwMWydSsicdfUXKArUgApZn1": false
       },
