@@ -94,7 +94,6 @@ const attachButtonHandlers = () => {
     // Update the attendance object for this game
     // Also update your own games list
     if (gameAction === 'attending') {
-      console.log('pushing', userObj);
 
       // use the current users object from the all user object, caue it has the first_name
       // you can index the current user with the uid
@@ -230,7 +229,12 @@ const updateAttendance = (gameIndex, uid, gameAction) => {
 
   trueUserObject[gameIndex] = true;
   falseUserObject[gameIndex] = false;
-  db.ref(`users/${uid}/${gameAction}`).update(trueUserObject);
+
+  db.ref(`users/${uid}/${gameAction}`).update(trueUserObject).then(function() {
+    console.log("Update success");
+  }).catch(function(err) {
+    console.log(err);
+  });
 
   const statusIndex = statuses.indexOf(gameAction);
   statuses.splice(statusIndex, 1);
